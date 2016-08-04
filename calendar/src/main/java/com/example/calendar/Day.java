@@ -2,11 +2,8 @@ package com.example.calendar;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 
 /**
  * 日期的类

@@ -19,6 +19,21 @@ public class DayManager {
     public static  String currentTime;
 
     /**
+     * 当前的日期
+     */
+    private static int current = -1;
+    /**
+     * 储存当前的日期
+     */
+    private static int tempcurrent=-1;
+    /**
+     *
+     */
+    static String[] weeks = {"日", "一", "二", "三", "四", "五", "六"};
+    static String[] dayArray = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
+            "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+
+    /**
      * 设置当前的时间
      * @param currentTime
      */
@@ -34,12 +49,7 @@ public class DayManager {
         return currentTime;
     }
 
-    /**
-     *
-     */
-    static String[] weeks = {"日", "一", "二", "三", "四", "五", "六"};
-    static String[] dayArray = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
-            "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+
     /**
      * 储存正常天数
      */
@@ -119,10 +129,7 @@ public class DayManager {
      * 储存休息天数
      */
     static Set<Integer> restDays = new HashSet<>();
-    /**
-     * 储存当前的日期
-     */
-    private static int tempcurrent=-1;
+
 
     public static void setTempcurrent(int tempcurrent) {
         DayManager.tempcurrent = tempcurrent;
@@ -132,10 +139,6 @@ public class DayManager {
         return tempcurrent;
     }
 
-    /**
-     * 当前的日期
-     */
-    private static int current = -1;
 
     public static void setCurrent(int current) {
         DayManager.current = current;
@@ -151,6 +154,8 @@ public class DayManager {
      * 根据日历对象创建日期集合
      *
      * @param calendar 日历
+     * @param width 控件的宽度
+     * @param heigh 控件的高度
      * @return 返回的天数的集合
      */
     public static List<Day> createDayByCalendar(Calendar calendar, int width, int heigh) {
@@ -182,6 +187,7 @@ public class DayManager {
         int count = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         int firstWeekCount = calendar.getActualMaximum(Calendar.DAY_OF_WEEK);
+        //生成每一天的对象，其中第i次创建的是第i+1天
         for (int i = 0; i < count; i++) {
             day = new Day(dayWidth, dayHeight);
             day.text = dayArray[i];
