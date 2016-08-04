@@ -58,9 +58,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         curDate = cal.getTime();
         String str = formatter.format(curDate);
         tv_month.setText(str);
-
-        tv_pre.setText((cal.get(Calendar.MONTH))+"月");
-        tv_next.setText((cal.get(Calendar.MONTH)+2)+"月");
+        String strPre=(cal.get(Calendar.MONTH))+"月";
+        if (strPre.equals("0月")){
+            strPre="12月";
+        }
+        tv_pre.setText(strPre);
+        String strNext=(cal.get(Calendar.MONTH)+2)+"月";
+        if(strNext.equals("13月")){
+            strNext="1月";
+        }
+        tv_next.setText(strNext);
 
     }
 
