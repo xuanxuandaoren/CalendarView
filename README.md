@@ -1,12 +1,12 @@
 # CalendarView
 自定义的日历控件，可以根据自己需求定制
-##自定义日历控件，可以根据需求定制属于自己的日历
+## 自定义日历控件，可以根据需求定制属于自己的日历
 ---
-###效果图
+### 效果图
 最近笔者的朋友需要写一个关于考勤的日历，效果如下![笔者朋友的预览图](http://img.blog.csdn.net/20160804102049628)，但在网上找了半天都找不到合适的，于是乎就向笔者求助，笔者本来觉得在晚上随便找个日历demo，然后随便的修改几下就可以完成，于是顺口答应，找来几个发现代码修改起来都比较麻烦，于是乎就想为何不自己写一个可以修改起来很方便的日历控件呢 ？那岂不是以后用起来也很方便么 ？于是乎笔者就动手写了一个日记控件，运行起来效果图如下![笔者自己写的控件效果](http://img.blog.csdn.net/20160804102116386)，[demo下载地址](https://github.com/xuanxuandaoren/CalendarView)看完效果图我们就来谈一下笔者自己写自定义控件的思路
-###自定义控件思路
+### 自定义控件思路
 笔者在写自定义控件的时候一般采用MVC模式，即是模型(model)－视图(view)－控制器(controller)，首先我们分析一下model
-####建立模型
+#### 建立模型
 建立模型之前，首先我们分析一下日历控件，以便于建立模型，先看图
 ![示例图片](http://img.blog.csdn.net/20160804102647066)
 我们把一个方框看做一个对象，要确定这个对象我们需要确定那些关键属性呢 ？
@@ -190,7 +190,7 @@ public class Day {
     }
 ```
 这样，一个完整的模型就建立完毕了
-####建立控制类
+#### 建立控制类
 我们现在建立一个控制的类，即DayManager类，并声明几个关键的参数
 
 ```
@@ -331,7 +331,7 @@ public class DayManager {
     }
 ```
 好了，一个日期控制类就完成了
-####建立view类，对日期进行显示
+#### 建立view类，对日期进行显示
 我们现在建立一个CalendarView类，并让他继承View类，并重写onDraw方法。
 
 ```
@@ -401,7 +401,7 @@ public class CalendarView extends View {
     }
 ```
 好了，一个完整的日历控件就画完了。
-####在activity里面使用
+#### 在activity里面使用
 创建布局文件，在布局文件添加控件，然后再给控件添加月份标题
 
 ```
@@ -454,8 +454,8 @@ public class CalendarView extends View {
 </LinearLayout>
 ```
 在activity里面查找到控件，并通过CaldendarView里面的setCalendar方法来显示calendar代表的月份。
-###更改自己想要的视图
-####更改统一样式
+### 更改自己想要的视图
+#### 更改统一样式
 如果我们想要更改所有布局的样式，只需要在Day类里面drawDays方法里面画上自己需要的东西即可
 ，我们需要用到的几个属性是
 
@@ -465,7 +465,7 @@ public class CalendarView extends View {
  4. location_y 对象处于第几列
  然后我们就可以确定我们绘图的区域即（location_x *width，location_y *height ）为区域左上角坐标（（location_x +1）*width，（location_y+1） *height ）为右下角左边，可以在此区域画上任何你想添加的东西，如果需要改变背景，既可以重新写drawBackground方法，如果不想要代表工作状态的小点，可以把drawWorkState给去掉，而width ，height ， location_x ，location_y 都是通过DayManager在控制，完全不用你去考虑
 
-####更改特殊样式
+#### 更改特殊样式
 如果你想给某一天添加特殊的属性，
 
  1. 给Day里面添加一个属性
