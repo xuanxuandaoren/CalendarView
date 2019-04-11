@@ -28,7 +28,16 @@ public class CalendarView extends View {
      * 当前的时间
      */
     private Calendar calendar;
+    /**
+     * 选中监听
+     */
     private OnSelectChangeListener listener;
+    /**
+     * 是否在本月里画其他月的日子
+     */
+    private  boolean drawOtherDays=true;
+
+    private OnDrawDays onDrawDays;
 
     /**
      * 改变日期，并更改当前状态，由于绘图是在calendar基础上进行绘制的，所以改变calendar就可以改变图片
@@ -85,7 +94,7 @@ public class CalendarView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //获取day集合并绘制
-        List<Day> days = DayManager.createDayByCalendar(calendar, getMeasuredWidth(), getMeasuredHeight());
+        List<Day> days = DayManager.createDayByCalendar(calendar, getMeasuredWidth(), getMeasuredHeight(),drawOtherDays);
         for (Day day : days) {
             day.drawDays(canvas, context, paint);
         }
@@ -137,11 +146,34 @@ public class CalendarView extends View {
     }
 
     /**
+     * 是否画本月外其他日子
+     * @param drawOtherDays true 表示画，false表示不画 ，默认为true
+     */
+    public void setDrawOtherDays(boolean drawOtherDays) {
+        this.drawOtherDays = drawOtherDays;
+        invalidate();
+    }
+
+    /**
      * 日期选择改变监听的接口
      */
     public interface OnSelectChangeListener {
         void selectChange(CalendarView calendarView,Date date);
     }
 
+    /**
+     * 画天数回调
+     */
+    public interface OnDrawDays{
+        /**
+         * 画天的回调，返回true 则覆盖默认的画面，返回
+         * @return
+         */
+        boolean drawDay();
+    }
+
+    public void setOnDrawDays(OnDrawDays onDrawDays){
+        this.onDrawDays=onDrawDays;
+    }
 
 }

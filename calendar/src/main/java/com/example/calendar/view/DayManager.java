@@ -1,5 +1,7 @@
 package com.example.calendar.view;
 
+import android.util.Log;
+
 import com.example.calendar.Day;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class DayManager {
     /**
      * 记录当前的时间
      */
-    public static  String currentTime;
+    public static String currentTime;
 
     /**
      * 当前的日期
@@ -25,7 +27,7 @@ public class DayManager {
     /**
      * 储存当前的日期
      */
-    private static int tempcurrent=-1;
+    private static int tempcurrent = -1;
     /**
      *
      */
@@ -35,6 +37,7 @@ public class DayManager {
 
     /**
      * 设置当前的时间
+     *
      * @param currentTime
      */
     public static void setCurrentTime(String currentTime) {
@@ -43,6 +46,7 @@ public class DayManager {
 
     /**
      * 获取当前的时间
+     *
      * @return
      */
     public static String getCurrentTime() {
@@ -154,11 +158,12 @@ public class DayManager {
      * 根据日历对象创建日期集合
      *
      * @param calendar 日历
-     * @param width 控件的宽度
-     * @param heigh 控件的高度
+     * @param width    控件的宽度
+     * @param heigh    控件的高度
+     * @param
      * @return 返回的天数的集合
      */
-    public static List<Day> createDayByCalendar(Calendar calendar, int width, int heigh) {
+    public static List<Day> createDayByCalendar(Calendar calendar, int width, int heigh, boolean drawOtherDay) {
         //初始化休息的天数
         initRestDays(calendar);
         //模拟数据
@@ -186,7 +191,28 @@ public class DayManager {
         }
         int count = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        int firstWeekCount = calendar.getActualMaximum(Calendar.DAY_OF_WEEK);
+        int firstWeekCount = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+
+        //添加上一个月的天数
+        if (drawOtherDay) {
+            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
+
+            int preCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+            for (int i = 0; i < firstWeekCount; i++) {
+                day = new Day(dayWidth, dayHeight);
+                day.text = dayArray[preCount - firstWeekCount + i];
+                day.location_x = i;
+                day.location_y = 1;
+                day.textClor=0xffaaaaaa;
+                Log.i("xiaozhu---", day.text);
+                days.add(day);
+            }
+
+            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1);
+        }
+
+
         //生成每一天的对象，其中第i次创建的是第i+1天
         for (int i = 0; i < count; i++) {
             day = new Day(dayWidth, dayHeight);
@@ -195,7 +221,10 @@ public class DayManager {
             calendar.set(Calendar.DAY_OF_MONTH, i + 1);
             //设置每个天数的位置
             day.location_y = calendar.get(Calendar.WEEK_OF_MONTH);
+
             day.location_x = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+
+            Log.i("xiaozhu---",day.location_y+"--"+day.text+"----"+day.location_x);
             //设置日期选择状态
             if (i == current - 1) {
                 day.backgroundStyle = 3;
@@ -221,6 +250,23 @@ public class DayManager {
             } else {
                 day.workState = 1;
             }
+            days.add(day);
+        }
+
+        //添加下一个月的天数
+        int lastCount = calendar.get(Calendar.DAY_OF_WEEK);
+
+        Log.i("xiaozhu---","lastCount"+lastCount);
+        for (int i = 0; i < 7 - lastCount; i++) {
+            day = new Day(dayWidth, dayHeight);
+            day.text = dayArray[i];
+
+            //设置每个天数的位置
+            day.location_y = calendar.get(Calendar.WEEK_OF_MONTH);
+
+            day.location_x = lastCount+i;
+
+            day.textClor=0xffaaaaaa;
             days.add(day);
         }
 
