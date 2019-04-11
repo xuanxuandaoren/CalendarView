@@ -4,7 +4,7 @@
 
 [demo下载地址](https://github.com/xuanxuandaoren/CalendarView)
 
-### 把相关类拷贝到自己项目目录线
+### 把相关类拷贝到自己项目目录里
 ![相关类](./image/1.png)
 
 ### 在XML 布局文件中引入相关 `CalendarView`
