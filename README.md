@@ -504,17 +504,10 @@ public class CalendarView extends View {
 
 1. width 单个对象的宽度
 2. height 单个对象的高度
-3. location_x 对象除于第几行
-4. location_y 对象处于第几列
 
-   然后我们就可以确定我们绘图的区域即（location_x *width，location_y *height ）为区域左上角坐标（（location_x +1）*width，（location_y+1） *height ）为右下角左边，可以在此区域画上任何你想添加的东西，如果需要改变背景，既可以重新写drawBackground方法，如果不想要代表工作状态的小点，可以把drawWorkState给去掉，而width ，height ， location_x ，location_y 都是通过DayManager在控制，完全不用你去考虑
+
+   然后我们就可以确定我们绘图的区域即（0，0 ）为区域左上角坐标（width，height ）为右下角，可以在此区域画上任何你想添加的东西，而width ，height 都是通过DayManager在控制，完全不用你去考虑
 
 #### 更改特殊样式
 
-如果你想给某一天添加特殊的属性，
-
-1. 给Day里面添加一个属性
-2. 在DayManager里面生成包含天数的集合时判断是否是该天数，如果是设置该属性，如果你想控制某几天显示该属性，就声明一个集合，在生成天数事判断集合是否包含该天数，如果包含，则设置该属性
-3. 根据属性画对应的图标。
-
-   这样就可以画出自己想要的效果了。
+[使用引导](https://github.com/xuanxuandaoren/CalendarView/blob/master/doc.md)
