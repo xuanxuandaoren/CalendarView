@@ -500,7 +500,7 @@ public class CalendarView extends View {
 
 #### 更改统一样式
 
-如果我们想要更改所有布局的样式，只需要在Day类里面drawDays方法里面画上自己需要的东西即可
+如果我们想要更改所有布局的样式，只需要给CalendarView设置回调即可，在方法里面画上自己需要的东西。
 ，我们需要用到的几个属性是
 
 1. width 单个对象的宽度
@@ -510,5 +510,6 @@ public class CalendarView extends View {
    然后我们就可以确定我们绘图的区域即（0，0 ）为区域左上角坐标（width，height ）为右下角，可以在此区域画上任何你想添加的东西，而width ，height 都是通过DayManager在控制，完全不用你去考虑
 
 #### 更改特殊样式
+如果你想给某一天添加特殊的属性，请参照使用引导
 
 [使用引导](https://github.com/xuanxuandaoren/CalendarView/blob/master/doc.md)
