@@ -19,13 +19,17 @@ public class Day {
      */
     public int height;
     /**
-     * 日期的文本
+     * 一月的第几天的文本
      */
     public String text;
     /**
      * 文本字体的颜色
      */
     public int textClor;
+    /**
+     * 当天年月日的文本
+     */
+    public String dateText="-1";
     /**
      * 日期背景的类型 0代表无任何背景，1代表正常打卡，2代表所选日期，3代表当前日期 4,代表即是当前日期，也被选中
      */
@@ -54,10 +58,15 @@ public class Day {
      * 字体在第几列
      */
     public int location_y;
+    /**
+     * 是否是本月
+     */
+    public boolean isCurrent = true;
 
     /**
      * 创建日期对象
-     * @param width 每个日期格子的宽度
+     *
+     * @param width  每个日期格子的宽度
      * @param height 每个日期格子的高度
      */
     public Day(int width, int height) {
@@ -95,8 +104,8 @@ public class Day {
      */
     private void drawWorkState(Canvas canvas, Paint paint) {
         //确定圆心位置
-        float cx = location_x * width + width / 2;
-        float xy = location_y * height + height * 44 / 60;
+        float cx = width / 2;
+        float xy = height * 44 / 60;
         paint.setStyle(Paint.Style.FILL);
         //根据工作状态设置画笔颜色
         if (workState == 0) {
@@ -134,8 +143,8 @@ public class Day {
         paint.getTextBounds(text, 0, text.length(), rect);
         int w = rect.width();
         //计算画文字的位置
-        float x = location_x * width + (width - w) / 2;
-        float y = location_y * height + (height + textSize/2) / 2;
+        float x = (width - w) / 2;
+        float y = (height + textSize / 2) / 2;
         canvas.drawText(text, x, y, paint);
     }
 
@@ -166,8 +175,8 @@ public class Day {
                 break;
         }
         //计算圆心的位置
-        float cx = location_x * width + width / 2;
-        float cy = location_y * height + height / 2;
+        float cx = width / 2;
+        float cy = height / 2;
         canvas.drawCircle(cx, cy, backgroundR * 9 / 20, paint);
 
     }

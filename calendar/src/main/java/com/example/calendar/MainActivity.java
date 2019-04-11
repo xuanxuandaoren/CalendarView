@@ -1,7 +1,11 @@
 package com.example.calendar;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -41,13 +45,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //初始化界面
         init();
 
+        calendar.setOnDrawDays(new CalendarView.OnDrawDays() {
+            @Override
+            public boolean drawDay(Day day, Canvas canvas, Context context, Paint paint) {
+                Log.i("xiaozhu---",day.dateText);
+                return true;
+            }
 
+            @Override
+            public void drawDayAbove(Day day, Canvas canvas, Context context, Paint paint) {
+
+            }
+        });
         //给左右月份设置点击监听事件
         tv_pre.setOnClickListener(this);
         tv_next.setOnClickListener(this);
 
 
     }
+
+
+
 
     /**
      * 初始化界面

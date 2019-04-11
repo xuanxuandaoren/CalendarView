@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -35,7 +36,7 @@ public class CalendarView extends View {
     /**
      * 是否在本月里画其他月的日子
      */
-    private  boolean drawOtherDays=true;
+    private boolean drawOtherDays = true;
 
     private OnDrawDays onDrawDays;
 
@@ -94,9 +95,20 @@ public class CalendarView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //获取day集合并绘制
-        List<Day> days = DayManager.createDayByCalendar(calendar, getMeasuredWidth(), getMeasuredHeight(),drawOtherDays);
+        List<Day> days = DayManager.createDayByCalendar(calendar, getMeasuredWidth(), getMeasuredHeight(), drawOtherDays);
         for (Day day : days) {
-            day.drawDays(canvas, context, paint);
+
+            canvas.save();
+            canvas.translate(day.location_x * day.width, day.location_y * day.height);
+            if (this.onDrawDays == null || !onDrawDays.drawDay(day, canvas, context, paint)) {
+                day.drawDays(canvas, context, paint);
+            }
+
+            if (this.onDrawDays != null) {
+                onDrawDays.drawDayAbove(day, canvas, context, paint);
+            }
+
+            canvas.restore();
         }
 
     }
@@ -127,8 +139,8 @@ public class CalendarView extends View {
             calendar.set(Calendar.WEEK_OF_MONTH, (int) locationY);
             calendar.set(Calendar.DAY_OF_WEEK, (int) (locationX + 1));
             DayManager.setSelect(calendar.get(Calendar.DAY_OF_MONTH));
-            if (listener!=null){
-                listener.selectChange(this,calendar.getTime());
+            if (listener != null) {
+                listener.selectChange(this, calendar.getTime());
             }
             invalidate();
 
@@ -138,15 +150,17 @@ public class CalendarView extends View {
 
     /**
      * 设置日期选择改变监听
+     *
      * @param listener
      */
-    public void setOnSelectChangeListener (OnSelectChangeListener listener){
+    public void setOnSelectChangeListener(OnSelectChangeListener listener) {
 
         this.listener = listener;
     }
 
     /**
      * 是否画本月外其他日子
+     *
      * @param drawOtherDays true 表示画，false表示不画 ，默认为true
      */
     public void setDrawOtherDays(boolean drawOtherDays) {
@@ -158,22 +172,29 @@ public class CalendarView extends View {
      * 日期选择改变监听的接口
      */
     public interface OnSelectChangeListener {
-        void selectChange(CalendarView calendarView,Date date);
+        void selectChange(CalendarView calendarView, Date date);
     }
 
     /**
      * 画天数回调
      */
-    public interface OnDrawDays{
+    public interface OnDrawDays {
         /**
+         * 层次在原画下
          * 画天的回调，返回true 则覆盖默认的画面，返回
+         *
          * @return
          */
-        boolean drawDay();
+        boolean drawDay(Day day, Canvas canvas, Context context, Paint paint);
+
+        /**
+         * 层次在原画上
+         */
+        void drawDayAbove(Day day, Canvas canvas, Context context, Paint paint);
     }
 
-    public void setOnDrawDays(OnDrawDays onDrawDays){
-        this.onDrawDays=onDrawDays;
+    public void setOnDrawDays(OnDrawDays onDrawDays) {
+        this.onDrawDays = onDrawDays;
     }
 
 }

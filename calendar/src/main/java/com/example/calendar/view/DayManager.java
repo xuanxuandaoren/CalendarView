@@ -205,7 +205,8 @@ public class DayManager {
                 day.location_x = i;
                 day.location_y = 1;
                 day.textClor=0xffaaaaaa;
-                Log.i("xiaozhu---", day.text);
+                day.isCurrent=false;
+                day.dateText=calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+day.text;
                 days.add(day);
             }
 
@@ -223,8 +224,8 @@ public class DayManager {
             day.location_y = calendar.get(Calendar.WEEK_OF_MONTH);
 
             day.location_x = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+            day.dateText=calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+day.text;
 
-            Log.i("xiaozhu---",day.location_y+"--"+day.text+"----"+day.location_x);
             //设置日期选择状态
             if (i == current - 1) {
                 day.backgroundStyle = 3;
@@ -256,7 +257,7 @@ public class DayManager {
         //添加下一个月的天数
         int lastCount = calendar.get(Calendar.DAY_OF_WEEK);
 
-        Log.i("xiaozhu---","lastCount"+lastCount);
+
         for (int i = 0; i < 7 - lastCount; i++) {
             day = new Day(dayWidth, dayHeight);
             day.text = dayArray[i];
@@ -265,8 +266,9 @@ public class DayManager {
             day.location_y = calendar.get(Calendar.WEEK_OF_MONTH);
 
             day.location_x = lastCount+i;
-
+            day.isCurrent=false;
             day.textClor=0xffaaaaaa;
+            day.dateText=calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+2)+"-"+day.text;
             days.add(day);
         }
 
