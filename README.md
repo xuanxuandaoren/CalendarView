@@ -21,6 +21,7 @@
 3. location_x 对象除于第几行
 4. location_y 对象处于第几列 
 5. public String text 日期的文本 ，即第几天
+6. public String dateText 日期全称 2019-04-09
 
 给初始化。我们可以根绝以上的信息就可以计算出画一天的的区域，然后根据自己的需要在这个区域画出自己需要的东西。即修改drawDays方法就可以。
 
